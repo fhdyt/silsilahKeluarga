@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Text, Input } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
 import { RadioButton } from 'react-native-paper';
+import { ProgressDialog } from 'react-native-simple-dialogs';
 
 import { TextInput, Switch, Button } from 'react-native-paper';
 
@@ -11,14 +12,24 @@ const AddPersonScreen = ({ navigation }) => {
 
   const { add_member } = useContext(MemberContext);
   const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+  const [diedate, setDiedate] = useState('');
   const [gender, setGender] = useState('M');
+  const [tags, setTags] = useState(false);
 
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  const [loadingButton, setLoadingButton] = useState(false)
+  const [disabledButton, setDisabledButton] = useState(false)
+
+  const onToggleSwitch = () => setTags(!tags);
     return (
         <View style={styles.container}>
-            <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+          <View style={styles.Pasangan}>
+            <Text style={{alignSelf:'center'}}>Suami / Istri</Text>
+            <Switch value={tags} onValueChange={onToggleSwitch} />
+            </View>
             <Text h4>Tambah Anggota Keluarga</Text>
+            
             <TextInput
               label="Nama"
               value={name}
@@ -27,8 +38,20 @@ const AddPersonScreen = ({ navigation }) => {
             />
             <TextInput
               label="Alamat"
-              value={name}
-              onChangeText={setName}
+              value={address}
+              onChangeText={setAddress}
+              mode='outlined'
+            />
+            <TextInput
+              label="Tanggal Lahir"
+              value={birthdate}
+              onChangeText={setBirthdate}
+              mode='outlined'
+            />
+            <TextInput
+              label="Tanggal Meninggal"
+              value={diedate}
+              onChangeText={setDiedate}
               mode='outlined'
             />
             <RadioButton.Group onValueChange={gender => setGender(gender)} value={gender}>
@@ -36,8 +59,16 @@ const AddPersonScreen = ({ navigation }) => {
               <RadioButton.Item label="Wanita" value="F" />
             </RadioButton.Group>
             <Button
+            loading={loadingButton}
+            disabled={disabledButton}
               mode="outlined" 
-              onPress={() => add_member({ name, id })}
+              onPress={() => {
+                console.log("simpan"); 
+                setLoadingButton(true);
+                setDisabledButton(true);
+                add_member({ id, name, address, birthdate, gender, diedate, tags })
+              }
+              }
             >Simpan</Button>
         </View>
     );
@@ -62,6 +93,10 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         marginHorizontal: 20,
       },
+      Pasangan: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }
 });
 
 export default AddPersonScreen;

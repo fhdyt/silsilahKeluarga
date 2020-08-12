@@ -3,26 +3,33 @@ import { View, StyleSheet, Button, TouchableOpacity, FlatList, Dimensions } from
 import { Text } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
 import { NavigationEvents } from 'react-navigation';
+import SkeletonContent from 'react-native-skeleton-content';
 
 const HomeScreen = ({ navigation }) => {
-    const { state, fetchFamily } = useContext(MemberContext);
-
-    useEffect(() => {
-        fetchFamily();
-      }, []);
-
-      const filter = () => {
-        return state.filter(result => {
-          return result.pid === '';
-        });
-      };
-
+    const { state, fetchMaster } = useContext(MemberContext);
+    const { width, height } = Dimensions.get("window");
+    
     return (
         <>
+        <NavigationEvents onWillFocus={() => {fetchMaster()}} />
         <View style={styles.container}>
-        <FlatList
+        {state.loading ? (
+            <SkeletonContent
+                containerStyle={{flex: 1, alignItems: 'center', marginTop: 15}}
+                layout={[
+                { key: 'positif', 
+                    height : 200, 
+                    width: width-50,
+                    borderRadius:10, 
+                    marginBottom: 20 
+                },
+                ]}>  
+            </SkeletonContent>
+        ):(
+            <>
+                <FlatList
                     showsVerticalScrollIndicator={false}
-                    data={filter()}
+                    data={state.data}
                     keyExtractor={(person) => person._id}
                     renderItem={({ item }) => {
                     return (
@@ -38,6 +45,8 @@ const HomeScreen = ({ navigation }) => {
                     );
                     }}
                 />
+            </>
+        )}
         </View>
         </>
     );

@@ -1,35 +1,51 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Button, FlatList } from 'react-native';
 import { Text, ListItem } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
-import { NavigationEvents } from 'react-navigation';
+
 const DetailFamilyScreen = ({ navigation }) => {
     const item = navigation.state.params.item;
 
-    const { state, fetchMember } = useContext(MemberContext)
+    const id = navigation.state.params.item.id;
+    const { state } = useContext(MemberContext)
+
+    const filter = id => {
+      return state.filter(result => {
+        return result.pid === id;
+      });
+    };
 
     return (
       <>
-      <NavigationEvents onWillFocus={() => fetchMember({id:item.id})} />
         <View style={styles.container}>
-                <Button title='Add Member' onPress={() => {navigation.navigate('AddPerson', { item:item })}} />
+                <Button title='Tambah Keluarga' onPress={() => {navigation.navigate('AddPerson', { item:item })}} />
                 
+                <View style={styles.Member}>
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    data={state}
+                    data={filter(id)}
                     keyExtractor={(person) => person._id}
                     renderItem={({ item }) => {
+                      if(item.gender == 'M')
+                      {
+                        var iconGender = require(`../../assets/M.png`)
+                      }
+                      else{
+                        var iconGender = require(`../../assets/F.png`)
+                      }
                     return (
                         <ListItem
                             title={item.name}
-                            subtitle={item._id}
+                            subtitle={item.address}
                             bottomDivider
                             chevron
+                            leftAvatar={{ source: iconGender }}
                             onPress={() => navigation.push('DetailFamily', { item:item })}
                         />
                     );
                     }}
                 />
+                </View>
         </View>
         </>
     );
@@ -55,24 +71,8 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginHorizontal: 10,
     },
-    Card: {
-    backgroundColor: '#f6f6f6',
-    paddingHorizontal: 5,
-    marginBottom: 10,
-    marginTop: 5,
-    marginHorizontal: 5,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    },
-    Nama: {
-        
+    Member: {
+        marginTop: 15
     },
 });
 
