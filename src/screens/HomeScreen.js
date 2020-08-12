@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Button, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import { View, StyleSheet, Button, TouchableOpacity, FlatList, Dimensions, Alert } from 'react-native';
 import { Text } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
 import { NavigationEvents } from 'react-navigation';
@@ -16,6 +16,24 @@ const HomeScreen = ({ navigation }) => {
           return result.pid === '';
         });
       };
+
+    buttonAlert = (id) =>
+    {
+        Alert.alert(
+        "Peringatan !",
+        "Menghapus berarti menghapus semua keluarga pada anggota ini",
+        [
+            {
+            text: "Batal",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+            },
+            { text: "Hapus", onPress: () => console.log(id) }
+        ],
+        { cancelable: false }
+        );
+    }
+
 
     return (
         <>
@@ -38,6 +56,7 @@ const HomeScreen = ({ navigation }) => {
                     );
                     }}
                 />
+                <Button title="Press" onPress={() => buttonAlert('fikri')}/>
         </View>
         </>
     );

@@ -17,7 +17,6 @@ const WebDiagramScreen = ({navigation}) => {
     return (
         <View>
             <SafeAreaView forceInset={{ top: 'always' }}>
-                <Text>Pohon Keluarga</Text>
         <WebView
         originWhitelist={['*']}
         source={{ uri: 'https://fhdyt.github.io/silsilahKeluarga' }}  

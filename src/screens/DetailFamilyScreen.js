@@ -4,10 +4,10 @@ import { Text, ListItem } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
 
 const DetailFamilyScreen = ({ navigation }) => {
-    const item = navigation.state.params.item;
-
+    const item = navigation.state.params.item
     const id = navigation.state.params.item.id;
-    const { state } = useContext(MemberContext)
+    const _id = navigation.state.params.item._id;
+    const { state, deleteMember } = useContext(MemberContext)
 
     const filter = id => {
       return state.filter(result => {
@@ -19,7 +19,7 @@ const DetailFamilyScreen = ({ navigation }) => {
       <>
         <View style={styles.container}>
                 <Button title='Tambah Keluarga' onPress={() => {navigation.navigate('AddPerson', { item:item })}} />
-                
+                <Button title='Hapus' onPress={() => deleteMember(_id, () => {navigation.navigate('DetailFamily', { item:item })})} />
                 <View style={styles.Member}>
                 <FlatList
                     showsVerticalScrollIndicator={false}

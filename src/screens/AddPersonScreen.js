@@ -9,8 +9,9 @@ import { TextInput, Switch, Button } from 'react-native-paper';
 
 const AddPersonScreen = ({ navigation }) => {
   const id = navigation.state.params.item.id;
+  const item = navigation.state.params.item
+  const { state, add_member } = useContext(MemberContext);
 
-  const { add_member } = useContext(MemberContext);
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [birthdate, setBirthdate] = useState('');
@@ -63,10 +64,9 @@ const AddPersonScreen = ({ navigation }) => {
             disabled={disabledButton}
               mode="outlined" 
               onPress={() => {
-                console.log("simpan"); 
                 setLoadingButton(true);
                 setDisabledButton(true);
-                add_member({ id, name, address, birthdate, gender, diedate, tags })
+                add_member({ id, name, address, birthdate, gender, diedate, tags },() => navigation.navigate('DetailFamily', { item:item }))
               }
               }
             >Simpan</Button>

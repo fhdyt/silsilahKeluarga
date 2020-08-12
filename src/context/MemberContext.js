@@ -6,33 +6,30 @@ const memberReducer = (state, action) => {
   switch (action.type) {
     case 'fetch_family':
       return action.payload;
+    case 'deleteMember':
+      return state.filter((p) => p._id !== action.payload);
+    case 'add_member':
+      return [...state, action.payload];
     default:
       return state;
   }
 };
 
-const add_member = dispatch => async ({ id, name, address, birthdate, gender, diedate, tags }, callback) => {
+const add_member = dispatch => async ({ id, name, address, birthdate, gender, diedate, tags}, callback) => {
   if(tags === true){
     tags = 'assistant'
   }
   else{
     tags = ''
   }
-  console.log({ id, name, address, birthdate, gender, diedate, tags })
-
   try {
-    console.log("Simpan Context")
     const response = await serverApi.post('/person', { pid: id, name, address, birthdate, gender, diedate, tags });
-    if (callback) {
-      callback();
-      navigate('DetailFamily');
+    dispatch({ type: 'add_member', payload: response.data});
+    if(callback){
+      callback()
     }
-    navigate('DetailFamily');
   } catch (err) {
-    dispatch({
-      type: 'add_error',
-      payload: 'Something went wrong'
-    });
+    console.log(err)
   }
 };
 
@@ -41,7 +38,13 @@ const fetchFamily = dispatch => async () => {
   dispatch({ type: 'fetch_family', payload: response.data});
 };
 
+const deleteMember = dispatch => async (_id) => {
+    const response = await serverApi.delete(`/person/${_id}`);
+    dispatch({ type: 'deleteMember', payload: _id});
+    navigate('DetailFamily');
+};
+
 export const { Provider, Context } = createDataContext(
   memberReducer,
-  { add_member, fetchFamily },[]
+  { add_member, fetchFamily, deleteMember },[]
 );
