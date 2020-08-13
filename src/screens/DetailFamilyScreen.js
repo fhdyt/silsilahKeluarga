@@ -8,9 +8,9 @@ const DetailFamilyScreen = ({ navigation }) => {
     const id = navigation.state.params.item.id;
     const _id = navigation.state.params.item._id;
     const { state, deleteMember } = useContext(MemberContext)
-
+    
     const filter = id => {
-      return state.filter(result => {
+      return state.personData.filter(result => {
         return result.pid === id;
       });
     };

@@ -5,14 +5,16 @@ import { Text } from 'react-native-elements'
 import { Card, Title, Paragraph } from 'react-native-paper';
 
 const HomeScreen = ({ navigation }) => {
-    const { state, fetchFamily } = useContext(MemberContext);
+    const { state, fetchFamily, infoFamily } = useContext(MemberContext);
     
     useEffect(() => {
         fetchFamily();
+        infoFamily();
       }, []);
 
+      console.log(state.info)
       const filter = () => {
-        return state.filter(result => {
+        return state.personData.filter(result => {
           return result.pid === '';
         });
       };
