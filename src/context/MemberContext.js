@@ -10,9 +10,17 @@ const memberReducer = (state, action) => {
       return state.filter((p) => p._id !== action.payload);
     case 'add_member':
       return [...state, action.payload];
+    case 'edit_member':
+      return [...state, action.payload];
     default:
       return state;
   }
+};
+
+const fetchFamily = dispatch => async () => {
+  console.log("ambil data")
+  const response = await serverApi.get('/person');
+  dispatch({ type: 'fetch_family', payload: response.data});
 };
 
 const add_member = dispatch => async ({ id, name, address, birthdate, gender, diedate, tags}, callback) => {
@@ -33,9 +41,22 @@ const add_member = dispatch => async ({ id, name, address, birthdate, gender, di
   }
 };
 
-const fetchFamily = dispatch => async () => {
-  const response = await serverApi.get('/person');
-  dispatch({ type: 'fetch_family', payload: response.data});
+const edit_member = dispatch => async ({ _id, id, pid, name, address, birthdate, gender, diedate, tags}, callback) => {
+  if(tags === true){
+    tags = 'assistant'
+  }
+  else{
+    tags = ''
+  }
+  try {
+    console.log("edit")
+    const response = await serverApi.put('/person', { _id, id, pid, name, address, birthdate, gender, diedate, tags });
+    if(callback){
+      callback()
+    }
+  } catch (err) {
+    console.log(err)
+  }
 };
 
 const deleteMember = dispatch => async (_id) => {
@@ -46,5 +67,5 @@ const deleteMember = dispatch => async (_id) => {
 
 export const { Provider, Context } = createDataContext(
   memberReducer,
-  { add_member, fetchFamily, deleteMember },[]
+  { add_member, edit_member, fetchFamily, deleteMember },[]
 );

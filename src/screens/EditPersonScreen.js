@@ -6,18 +6,25 @@ import { RadioButton } from 'react-native-paper';
 
 import { TextInput, Switch, Button } from 'react-native-paper';
 
-const AddPersonScreen = ({ navigation }) => {
-  const id = navigation.state.params.item.id;
+const EditPersonScreen = ({ navigation }) => {
+  const pid = navigation.state.params.item.pid;
   const item = navigation.state.params.item
-  const { state, add_member } = useContext(MemberContext);
+  const { state, edit_member } = useContext(MemberContext);
+  const member = state.find(p => p._id === item._id);
+    if(member.tags[0] == 'assistant' ){
+        var memberTags = true
+        }
+        else{
+        var memberTags = false
+        }
+  const [name, setName] = useState(member.name);
+  const [address, setAddress] = useState(member.address);
+  const [birthdate, setBirthdate] = useState(member.birthdate);
+  const [diedate, setDiedate] = useState(member.diedate);
+  const [gender, setGender] = useState(member.gender);
+  const [tags, setTags] = useState(memberTags);
 
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [birthdate, setBirthdate] = useState('');
-  const [diedate, setDiedate] = useState('');
-  const [gender, setGender] = useState('M');
-  const [tags, setTags] = useState(false);
-
+  
   const [loadingButton, setLoadingButton] = useState(false)
   const [disabledButton, setDisabledButton] = useState(false)
 
@@ -28,7 +35,7 @@ const AddPersonScreen = ({ navigation }) => {
             <Text style={{alignSelf:'center'}}>Suami / Istri</Text>
             <Switch value={tags} onValueChange={onToggleSwitch} />
             </View>
-            <Text h4>Tambah Anggota Keluarga</Text>
+            <Text h4>Edit Anggota Keluarga</Text>
             
             <TextInput
               label="Nama"
@@ -61,19 +68,19 @@ const AddPersonScreen = ({ navigation }) => {
             <Button
               loading={loadingButton}
               disabled={disabledButton}
-                mode="contained" 
+              mode="contained"
                 onPress={() => {
                   setLoadingButton(true);
                   setDisabledButton(true);
-                  add_member({ id, name, address, birthdate, gender, diedate, tags },() => navigation.navigate('DetailFamily', { item:item }))
+                  edit_member({ _id:item._id, id:item.id, pid, name, address, birthdate, gender, diedate, tags },() => navigation.navigate('DetailFamily', { item:item }))
                 }
               }
-            >Simpan</Button>
+            >Edit</Button>
         </View>
     );
 }
 
-AddPersonScreen.navigationOptions = ({ navigation }) => {
+EditPersonScreen.navigationOptions = ({ navigation }) => {
   const name = navigation.state.params.item.name;
     return {
       title : name,
@@ -98,4 +105,4 @@ const styles = StyleSheet.create({
       }
 });
 
-export default AddPersonScreen;
+export default EditPersonScreen;
