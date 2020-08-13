@@ -7,11 +7,18 @@ const memberReducer = (state, action) => {
     case 'fetch_family':
       return {personData:action.payload};
     case 'deleteMember':
-      return state.filter((p) => p.personData._id !== action.payload);
+      return {
+        ...state,
+        personData: state.personData.filter(
+          personData => personData._id !== action.payload
+        )
+      };
     case 'add_member':
       return {...state, personData:[...state.personData ,action.payload]};
     case 'edit_member':
-      return {personData:action.payload};
+      return {...state.personData.map(personD => {
+        return personD._id === action.payload._id ? action.payload : personD;
+      })}
     case 'info_family':
       return {...state, info:action.payload};
     default:
@@ -59,19 +66,24 @@ const edit_member = dispatch => async ({ _id, id, pid, name, address, birthdate,
   }
   try {
     console.log("edit")
+    const _tags = [tags]
+    const personUpdate = { _id, id, pid, name, address, birthdate, gender, diedate,_tags};
     const response = await serverApi.put('/person', { _id, id, pid, name, address, birthdate, gender, diedate, tags });
-    if(callback){
-      callback()
-    }
+    //dispatch({ type: 'edit_member', payload: personUpdate});
+    // if(callback){
+    //   callback()
+    // }
   } catch (err) {
     console.log(err)
   }
 };
 
-const deleteMember = dispatch => async (_id) => {
+const deleteMember = dispatch => async (_id, callback) => {
     const response = await serverApi.delete(`/person/${_id}`);
     dispatch({ type: 'deleteMember', payload: _id});
-    navigate('DetailFamily');
+    if(callback){
+      callback()
+    }
 };
 
 export const { Provider, Context } = createDataContext(

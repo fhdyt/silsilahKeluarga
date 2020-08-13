@@ -3,7 +3,7 @@ import { View, StyleSheet, Button, TouchableOpacity, FlatList, Alert } from 'rea
 import { Context as MemberContext } from '../context/MemberContext';
 import { Text } from 'react-native-elements'
 import { Card, Title, Paragraph } from 'react-native-paper';
-
+import { AntDesign } from '@expo/vector-icons';
 const HomeScreen = ({ navigation }) => {
     const { state, fetchFamily, infoFamily } = useContext(MemberContext);
     
@@ -21,6 +21,8 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+
+            <Button title="pohon keluarga" onPress={() => navigation.navigate('WebDiagram')}/>
         <FlatList
                     showsVerticalScrollIndicator={false}
                     data={filter()}
@@ -30,10 +32,10 @@ const HomeScreen = ({ navigation }) => {
                         <TouchableOpacity
                             onPress={() => navigation.navigate('DetailFamily', { item:item })}
                         >
-                        <View style={styles.Card}>
-                            <Text h3 style={styles.Nama}>{item.name}</Text>    
-                            <Text style={{fontSize: 18}}>Keluarga Besar</Text>
-                        </View>
+                        <Card.Title
+                            title={item.name}
+                            subtitle="Keluarga Besar"
+                        />
                         </TouchableOpacity>
                     );
                     }}
@@ -42,11 +44,17 @@ const HomeScreen = ({ navigation }) => {
     );
 }
 
-// HomeScreen.navigationOptions = ({ navigation }) => {
-//     return {
-//       header: () => false,
-//     };
-//   };
+HomeScreen.navigationOptions = ({ navigation }) => {
+    return {
+        headerRight: () => (
+            <View style={{marginRight:12}}>
+                <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                <AntDesign name="search1" size={27} color="black" />
+            </TouchableOpacity>
+            </View>
+          ),
+    };
+  };
 
 const styles = StyleSheet.create({
     container: {
@@ -65,7 +73,7 @@ const styles = StyleSheet.create({
     },
     Nama: {
         justifyContent: 'flex-end',
-    }
+    },
 });
 
 export default HomeScreen;

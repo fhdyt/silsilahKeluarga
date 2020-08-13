@@ -26,7 +26,7 @@ const DetailFamilyScreen = ({ navigation }) => {
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel"
             },
-            { text: "Hapus", onPress: () => deleteMember(_id, () => {navigation.navigate('DetailFamily', { item:item })}) }
+            { text: "Hapus", onPress: () => deleteMember(_id, () => {navigation.navigate('Home')}) }
         ],
         { cancelable: false }
         );
@@ -52,6 +52,13 @@ const DetailFamilyScreen = ({ navigation }) => {
                     data={filter(id)}
                     keyExtractor={(person) => person._id}
                     renderItem={({ item }) => {
+                      if(item.tags[0] == 'assistant')
+                      {
+                        var subtitle = 'Pasangan';
+                      }
+                      else{
+                        var subtitle = 'Anak';
+                      }
                       if(item.gender == 'M')
                       {
                         var iconGender = require(`../../assets/M.png`)
@@ -62,7 +69,7 @@ const DetailFamilyScreen = ({ navigation }) => {
                     return (
                         <ListItem
                             title={item.name}
-                            subtitle={item.address}
+                            subtitle={subtitle}
                             bottomDivider
                             chevron
                             leftAvatar={{ source: iconGender }}

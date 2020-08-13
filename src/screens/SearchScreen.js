@@ -10,7 +10,7 @@ const SearchScreen = ({navigation}) => {
     const { state } = useContext(MemberContext);
 
     const findQuery =(key) =>{
-        return state.filter(result => {
+        return state.personData.filter(result => {
             if(!key)
             {
                 return null
@@ -27,6 +27,7 @@ const SearchScreen = ({navigation}) => {
                 placeholder="Search"
                 onChangeText={setSearchQuery}
                 value={searchQuery}
+                focus
             />
             <View>
             <FlatList
@@ -59,6 +60,11 @@ const SearchScreen = ({navigation}) => {
     );
 }
 
+SearchScreen.navigationOptions = ({ navigation }) => {
+  return {
+    header: () => false,
+  };
+};
 
 const styles = StyleSheet.create({
     container: {

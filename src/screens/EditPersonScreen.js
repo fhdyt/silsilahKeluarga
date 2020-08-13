@@ -10,7 +10,7 @@ const EditPersonScreen = ({ navigation }) => {
   const pid = navigation.state.params.item.pid;
   const item = navigation.state.params.item
   const { state, edit_member } = useContext(MemberContext);
-  const member = state.find(p => p._id === item._id);
+  const member = state.personData.find(p => p._id === item._id);
     if(member.tags[0] == 'assistant' ){
         var memberTags = true
         }
