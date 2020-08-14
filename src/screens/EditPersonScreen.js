@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Input } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
 import { RadioButton } from 'react-native-paper';
 
@@ -35,7 +35,7 @@ const EditPersonScreen = ({ navigation }) => {
             <Text style={{alignSelf:'center'}}>Suami / Istri</Text>
             <Switch value={tags} onValueChange={onToggleSwitch} />
             </View>
-            <Text h4>Edit Anggota Keluarga</Text>
+            <Text h4>Edit</Text>
             
             <TextInput
               label="Nama"
@@ -72,7 +72,7 @@ const EditPersonScreen = ({ navigation }) => {
                 onPress={() => {
                   setLoadingButton(true);
                   setDisabledButton(true);
-                  edit_member({ _id:item._id, id:item.id, pid, name, address, birthdate, gender, diedate, tags },() => navigation.navigate('DetailFamily', { item:item }))
+                  edit_member({ _id:item._id, id:item.id, pid, name, address, birthdate, gender, diedate, tags },() => navigation.navigate('Home'))
                 }
               }
             >Edit</Button>

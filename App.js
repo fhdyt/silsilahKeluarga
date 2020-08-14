@@ -11,7 +11,6 @@ import AddPersonScreen from './src/screens/AddPersonScreen';
 import EditPersonScreen from './src/screens/EditPersonScreen';
 
 import SearchScreen from './src/screens/SearchScreen';
-import WebDiagramScreen from './src/screens/WebDiagramScreen';
 
 const switchNavigator = createStackNavigator({
   Home: HomeScreen,
@@ -19,7 +18,6 @@ const switchNavigator = createStackNavigator({
   EditPerson: EditPersonScreen,
   DetailFamily: DetailFamilyScreen,
   Search: SearchScreen,
-  WebDiagram: WebDiagramScreen
   },
   {
     initialRouteName: 'Home',

@@ -1,79 +1,154 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Button, TouchableOpacity, FlatList, Alert } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { View, StyleSheet, Image, FlatList, Linking } from 'react-native';
 import { Context as MemberContext } from '../context/MemberContext';
-import { Text } from 'react-native-elements'
-import { Card, Title, Paragraph } from 'react-native-paper';
-import { AntDesign } from '@expo/vector-icons';
+import { Card, Button, Searchbar, Banner, List, Text } from 'react-native-paper';
+import { SafeAreaView } from 'react-navigation';
+import { ListItem } from 'react-native-elements';
 const HomeScreen = ({ navigation }) => {
-    const { state, fetchFamily, infoFamily } = useContext(MemberContext);
+    const { state, fetchFamily } = useContext(MemberContext);
     
     useEffect(() => {
         fetchFamily();
-        infoFamily();
       }, []);
 
-      console.log(state.info)
-      const filter = () => {
+      var filter = () => {
         return state.personData.filter(result => {
           return result.pid === '';
         });
       };
-
+      console.log(state.info.jumlah)
     return (
+        <>
         <View style={styles.container}>
-
-            <Button title="pohon keluarga" onPress={() => navigation.navigate('WebDiagram')}/>
+            <SafeAreaView forceInset={{ top: 'always' }}>
+            <Searchbar
+                onTouchStart={() => navigation.navigate('Search')}
+                placeholder="Cari"
+            />
+            <Banner
+                style={{
+                    marginTop:10
+                }}
+                visible={state.errorBanner}
+                actions={[
+                    {
+                      label: 'Coba lagi',
+                      onPress: () => {
+                        fetchFamily();
+                        infoFamily();
+                      },
+                    },
+                  ]}
+                icon={({size}) => (
+                    <Image
+                    source={
+                        require(`../../assets/connection.png`)
+                    }
+                    style={{
+                        width: size,
+                        height: size,
+                    }}
+                    />
+                )}>
+                Gagal membuat data, periksa kembali koneksi internet anda.
+            </Banner>
+            <Banner
+                visible={state.loading}
+                actions={[]}
+                >
+                Memuat data... Mohon tunggu
+            </Banner>
         <FlatList
                     showsVerticalScrollIndicator={false}
                     data={filter()}
                     keyExtractor={(person) => person._id}
                     renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('DetailFamily', { item:item })}
-                        >
-                        <Card.Title
-                            title={item.name}
-                            subtitle="Keluarga Besar"
-                        />
-                        </TouchableOpacity>
+                            <Card style={styles.Cover}>
+                                <Card.Title style={styles.Title}
+                                    title={item.name}
+                                    subtitle="Keluarga Besar"
+                                />
+                                <Card.Actions>
+                                <Button onPress={() => Linking.openURL('https://fhdyt.github.io/silsilahKeluarga/')}>Pohon Keluarga</Button>
+                                <Button onPress={() => navigation.navigate('DetailFamily', { item:item })}>Lihat</Button>
+                                </Card.Actions>
+                            </Card>
                     );
                     }}
                 />
+                <View style={styles.Info}>
+                <ListItem
+                    title="Jumlah Keluarga"
+                    bottomDivider
+                    subtitle={state.info.jumlah}
+                />
+                <ListItem
+                    title="Pria"
+                    bottomDivider
+                    subtitle={state.info.pria}
+                />
+                <ListItem
+                    title="Wanita"
+                    bottomDivider
+                    subtitle={state.info.wanita}
+                />
+                <ListItem
+                    title="Meninggal"
+                    bottomDivider
+                    subtitle={state.info.meninggal}
+                />
+                </View>
+
+                </SafeAreaView>
         </View>
+        </>
     );
 }
 
 HomeScreen.navigationOptions = ({ navigation }) => {
     return {
-        headerRight: () => (
-            <View style={{marginRight:12}}>
-                <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                <AntDesign name="search1" size={27} color="black" />
-            </TouchableOpacity>
-            </View>
-          ),
+        header: () => false,
     };
   };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         marginHorizontal: 10,
         marginBottom: 50,
     },
-    Card: {
-    backgroundColor: '#eeeeee',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    marginVertical: 5,
-    height: 200,
-    marginHorizontal: 10,
-    borderRadius: 10,
+    Cover:{
+        marginTop:15,
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        borderRadius:10,
+        marginHorizontal:5
+      },
+    Info:{
+        marginTop:15,
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        marginHorizontal:5
     },
-    Nama: {
-        justifyContent: 'flex-end',
-    },
+    Title:{
+        backgroundColor:'#eeeeee',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius:10
+    }
 });
 
 export default HomeScreen;

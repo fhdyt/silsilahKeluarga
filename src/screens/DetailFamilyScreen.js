@@ -2,20 +2,21 @@ import React, { useContext } from 'react';
 import { View, StyleSheet, FlatList, Alert } from 'react-native';
 import { Text, ListItem } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
-import { Subheading, Button} from 'react-native-paper';
+import { Subheading, Button, Card} from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
 const DetailFamilyScreen = ({ navigation }) => {
     const item = navigation.state.params.item
     const id = navigation.state.params.item.id;
     const _id = navigation.state.params.item._id;
     const { state, deleteMember } = useContext(MemberContext)
     
-    const filter = id => {
+    var filter = id => {
       return state.personData.filter(result => {
         return result.pid === id;
       });
     };
 
-    buttonAlert = (_id) =>
+    const buttonAlert = (_id) =>
     {
         Alert.alert(
         "Peringatan !",
@@ -34,18 +35,20 @@ const DetailFamilyScreen = ({ navigation }) => {
 
     return (
       <>
+      <ScrollView>
         <View style={styles.container}>
-          <View style={styles.Cover}>
-            <Text h3>{item.name}</Text>
-            <Subheading>{item.address}</Subheading>
-            <Subheading>{item.diedate}</Subheading>
-          </View>
-              <View style={styles.ButtonAction}>
-              <Button title='Tambah' mode='contained' icon="plus" onPress={() => {navigation.navigate('AddPerson', { item:item })}} >Tambah</Button>
-              <Button mode='contained' icon="pencil" color="black" onPress={() => {navigation.navigate('EditPerson', { item:item })}} >Edit</Button>
-              <Button mode='contained' icon="delete" color="red" onPress={() => buttonAlert(_id)} >Hapus</Button>
-                
-              </View>
+            <Card style={styles.Cover}>
+                <Card.Title style={styles.Title}
+                    title={item.name}
+                    subtitle={item.address}
+                />
+                <Card.Actions>
+                <Button onPress={() => {navigation.navigate('AddPerson', { item:item })}}>Tambah</Button>
+                <Button color="green" onPress={() => {navigation.navigate('EditPerson', { item:item })}}>Edit</Button>
+                <Button color="red" onPress={() => buttonAlert(_id)}>Hapus</Button>
+                </Card.Actions>
+            </Card>
+
                 <View style={styles.Member}>
                 <FlatList
                     showsVerticalScrollIndicator={false}
@@ -80,6 +83,7 @@ const DetailFamilyScreen = ({ navigation }) => {
                 />
                 </View>
         </View>
+        </ScrollView>
         </>
     );
 }
@@ -98,25 +102,39 @@ DetailFamilyScreen.navigationOptions = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginBottom: 250,
         marginHorizontal: 10,
     },
     Member: {
         marginTop: 15
     },
     Cover:{
-      justifyContent: 'flex-end',
-      height: 200,
-      backgroundColor:'#eeeeee',
-      borderRadius: 10,
       marginBottom: 10,
-      paddingHorizontal:15,
-      paddingVertical:15
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      borderRadius:10
     },
-    ButtonAction:{
-      flexDirection:'row',
-      justifyContent: 'space-between',
-    }
+    Title:{
+      backgroundColor:'#eeeeee',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius:10
+    },
+    Member:{
+      marginBottom: 10,
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
 });
 
 export default DetailFamilyScreen;

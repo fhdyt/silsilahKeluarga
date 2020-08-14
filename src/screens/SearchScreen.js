@@ -24,9 +24,12 @@ const SearchScreen = ({navigation}) => {
         <View style={styles.container}>
             <SafeAreaView forceInset={{ top: 'always' }}>
             <Searchbar
-                placeholder="Search"
+                autoFocus={true}
+                placeholder="Cari"
                 onChangeText={setSearchQuery}
                 value={searchQuery}
+                icon="arrow-left"
+                onIconPress={() => navigation.navigate('Home')}
                 focus
             />
             <View>
@@ -70,8 +73,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginBottom: 100,
-        marginHorizontal: 10,
-        marginTop: 10
+        marginHorizontal: 10
       },
 
 });
