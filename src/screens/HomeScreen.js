@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-navigation';
 import { ListItem } from 'react-native-elements';
 import { setStatusBarBackgroundColor } from 'expo-status-bar';
 const HomeScreen = ({ navigation }) => {
-    const { state, fetchFamily } = useContext(MemberContext);
+    const { state, fetchFamily, showLoading } = useContext(MemberContext);
     
     useEffect(() => {
         fetchFamily();
@@ -33,7 +33,7 @@ const HomeScreen = ({ navigation }) => {
                 actions={[
                     {
                       label: 'Coba lagi',
-                      onPress: () => {fetchFamily()},
+                      onPress: () => {showLoading(), fetchFamily()},
                     },
                   ]}
                 icon={({size}) => (
@@ -47,13 +47,13 @@ const HomeScreen = ({ navigation }) => {
                     }}
                     />
                 )}>
-                Gagal membuat data, periksa kembali koneksi internet anda.
+                Gagal mengambil data, periksa kembali koneksi internet anda.
             </Banner>
             <Banner
                 visible={state.loading}
                 actions={[]}
                 >
-                Memuat data... Mohon tunggu
+                Mengambil data... Mohon tunggu
             </Banner>
         <FlatList
                     showsVerticalScrollIndicator={false}

@@ -4,6 +4,7 @@ import { Text, ListItem } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
 import { Subheading, Button, Card} from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
+
 const DetailFamilyScreen = ({ navigation }) => {
     const item = navigation.state.params.item
     const id = navigation.state.params.item.id;

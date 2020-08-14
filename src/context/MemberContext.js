@@ -7,7 +7,7 @@ const memberReducer = (state, action) => {
     case 'fetch_family':
       return {personData:action.payload, info:action.info, errorBanner: false, loading:false};
     case 'errorBanner':
-      return { ...state, errorBanner: action.payload };
+      return { ...state, errorBanner: action.payload, loading:false };
     case 'deleteMember':
       return {
         ...state,
@@ -17,6 +17,8 @@ const memberReducer = (state, action) => {
       };
     case 'add_member':
       return {...state, personData:[...state.personData ,action.payload], errorBanner: false};
+    case 'show_loading':
+      return {...state, loading:true, errorBanner:false};
     case 'edit_member':
       const updatePerson = action.payload;
       const updatePersons = state.personData.map(person => {
@@ -42,6 +44,7 @@ const fetchFamily = dispatch => async () => {
     dispatch({ type: 'fetch_family', payload: response.data, info:info_response.data});    
   } catch(err){
     dispatch({ type: 'errorBanner', payload: true });
+    console.log(err)
   }
 };
 
@@ -103,12 +106,16 @@ const deleteMember = dispatch => async (_id, callback) => {
     
 };
 
+const showLoading = dispatch => async () => {
+    dispatch({ type: 'show_loading', payload: true});
+};
 export const { Provider, Context } = createDataContext(
   memberReducer,
   { add_member, 
     edit_member, 
     fetchFamily, 
-    deleteMember
+    deleteMember,
+    showLoading
    },{
      info:[{jumlah:0, pria:0, wanita:0, meninggal:0}],
      personData:[],
