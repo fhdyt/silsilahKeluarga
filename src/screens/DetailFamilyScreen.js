@@ -34,9 +34,7 @@ const DetailFamilyScreen = ({ navigation }) => {
     }
 
     return (
-      <>
-      <ScrollView>
-        <View style={styles.container}>
+      <View style={styles.container}>
             <Card style={styles.Cover}>
                 <Card.Title style={styles.Title}
                     title={item.name}
@@ -62,12 +60,17 @@ const DetailFamilyScreen = ({ navigation }) => {
                       else{
                         var subtitle = 'Anak';
                       }
+
                       if(item.gender == 'M')
                       {
                         var iconGender = require(`../../assets/M.png`)
                       }
-                      else{
+                      else if(item.gender == 'F')
+                      {
                         var iconGender = require(`../../assets/F.png`)
+                      }
+                      else{
+                        var iconGender = require(`../../assets/FM.png`)
                       }
                     return (
                         <ListItem
@@ -83,8 +86,6 @@ const DetailFamilyScreen = ({ navigation }) => {
                 />
                 </View>
         </View>
-        </ScrollView>
-        </>
     );
 }
 
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginHorizontal: 10,
+        marginBottom:100
     },
     Member: {
         marginTop: 15

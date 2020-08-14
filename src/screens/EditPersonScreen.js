@@ -22,18 +22,18 @@ const EditPersonScreen = ({ navigation }) => {
   const [birthdate, setBirthdate] = useState(member.birthdate);
   const [diedate, setDiedate] = useState(member.diedate);
   const [gender, setGender] = useState(member.gender);
-  const [tags, setTags] = useState(memberTags);
+  const [tags_status, setTags_status] = useState(memberTags);
 
   
   const [loadingButton, setLoadingButton] = useState(false)
   const [disabledButton, setDisabledButton] = useState(false)
 
-  const onToggleSwitch = () => setTags(!tags);
+  const onToggleSwitch = () => setTags_status(!tags_status);
     return (
         <View style={styles.container}>
           <View style={styles.Pasangan}>
             <Text style={{alignSelf:'center'}}>Suami / Istri</Text>
-            <Switch value={tags} onValueChange={onToggleSwitch} />
+            <Switch value={tags_status} onValueChange={onToggleSwitch} />
             </View>
             <Text h4>Edit</Text>
             
@@ -72,7 +72,7 @@ const EditPersonScreen = ({ navigation }) => {
                 onPress={() => {
                   setLoadingButton(true);
                   setDisabledButton(true);
-                  edit_member({ _id:item._id, id:item.id, pid, name, address, birthdate, gender, diedate, tags },() => navigation.navigate('Home'))
+                  edit_member({ _id:item._id, id:item.id, pid, name, address, birthdate, gender, diedate, tags_status },() => navigation.navigate('Home'))
                 }
               }
             >Edit</Button>

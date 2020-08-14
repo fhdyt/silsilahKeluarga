@@ -4,6 +4,7 @@ import { Context as MemberContext } from '../context/MemberContext';
 import { Card, Button, Searchbar, Banner, List, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-navigation';
 import { ListItem } from 'react-native-elements';
+import { setStatusBarBackgroundColor } from 'expo-status-bar';
 const HomeScreen = ({ navigation }) => {
     const { state, fetchFamily } = useContext(MemberContext);
     
@@ -16,7 +17,6 @@ const HomeScreen = ({ navigation }) => {
           return result.pid === '';
         });
       };
-      console.log(state.info.jumlah)
     return (
         <>
         <View style={styles.container}>
@@ -33,10 +33,7 @@ const HomeScreen = ({ navigation }) => {
                 actions={[
                     {
                       label: 'Coba lagi',
-                      onPress: () => {
-                        fetchFamily();
-                        infoFamily();
-                      },
+                      onPress: () => {fetchFamily()},
                     },
                   ]}
                 icon={({size}) => (
@@ -78,25 +75,25 @@ const HomeScreen = ({ navigation }) => {
                     }}
                 />
                 <View style={styles.Info}>
-                <ListItem
+                <List.Item
                     title="Jumlah Keluarga"
                     bottomDivider
-                    subtitle={state.info.jumlah}
+                    description={state.info.jumlah}
                 />
-                <ListItem
+                <List.Item
                     title="Pria"
                     bottomDivider
-                    subtitle={state.info.pria}
+                    description={state.info.pria}
                 />
-                <ListItem
+                <List.Item
                     title="Wanita"
                     bottomDivider
-                    subtitle={state.info.wanita}
+                    description={state.info.wanita}
                 />
-                <ListItem
+                <List.Item
                     title="Meninggal"
                     bottomDivider
-                    subtitle={state.info.meninggal}
+                    description={state.info.meninggal}
                 />
                 </View>
 
