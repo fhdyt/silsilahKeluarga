@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Input } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { Context as MemberContext } from '../context/MemberContext';
 import { RadioButton } from 'react-native-paper';
 

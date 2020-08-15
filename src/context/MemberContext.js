@@ -42,6 +42,7 @@ const fetchFamily = dispatch => async () => {
     const info_response = await serverApi.get('/info');
     const response = await serverApi.get('/person');
     dispatch({ type: 'fetch_family', payload: response.data, info:info_response.data});    
+    console.log("Success FetchingData")
   } catch(err){
     dispatch({ type: 'errorBanner', payload: true });
     console.log(err)

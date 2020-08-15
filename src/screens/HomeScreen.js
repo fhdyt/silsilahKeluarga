@@ -1,10 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { View, StyleSheet, Image, FlatList, Linking } from 'react-native';
 import { Context as MemberContext } from '../context/MemberContext';
-import { Card, Button, Searchbar, Banner, List, Text } from 'react-native-paper';
+import { Card, Button, Searchbar, Banner, IconButton, Divider } from 'react-native-paper';
 import { SafeAreaView } from 'react-navigation';
-import { ListItem } from 'react-native-elements';
-import { setStatusBarBackgroundColor } from 'expo-status-bar';
 const HomeScreen = ({ navigation }) => {
     const { state, fetchFamily, showLoading } = useContext(MemberContext);
     
@@ -47,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
                     }}
                     />
                 )}>
-                Gagal mengambil data, periksa kembali koneksi internet anda.
+                Gagal menghubungkan ke server ! Periksa kembali koneksi internet anda atau ulangi beberapa saat lagi.
             </Banner>
             <Banner
                 visible={state.loading}
@@ -61,41 +59,53 @@ const HomeScreen = ({ navigation }) => {
                     keyExtractor={(person) => person._id}
                     renderItem={({ item }) => {
                     return (
-                            <Card style={styles.Cover}>
+                            <View>
+                                <Card style={styles.Cover}>
                                 <Card.Title style={styles.Title}
-                                    title={item.name}
-                                    subtitle="Keluarga Besar"
+                                    title="Keluarga Besar"
+                                    titleStyle={{fontSize:13}}
+                                    subtitleStyle={{fontSize:20}}
+                                    subtitle={item.name}
+                                    right={(props) => <IconButton {...props} icon="refresh" onPress={() => {showLoading(); fetchFamily()}} />}
                                 />
+                                <Card.Title
+                                title="Jumlah Keluarga"
+                                titleStyle={{fontSize:14}}
+                                subtitle={state.info.jumlah}
+                                subtitleStyle={{fontSize:19}}
+                                />
+                                <Divider />
+                                <Card.Title
+                                title="Pria"
+                                titleStyle={{fontSize:14}}
+                                subtitle={state.info.pria}
+                                subtitleStyle={{fontSize:19}}
+                                />
+                                <Divider />
+                                <Card.Title
+                                title="Wanita"
+                                titleStyle={{fontSize:14}}
+                                subtitle={state.info.wanita}
+                                subtitleStyle={{fontSize:19}}
+                                />
+                                <Divider />
+                                <Card.Title
+                                title="Meninggal"
+                                titleStyle={{fontSize:14}}
+                                subtitle={state.info.meninggal}
+                                subtitleStyle={{fontSize:19}}
+                                />
+                                <Divider />
                                 <Card.Actions>
                                 <Button onPress={() => Linking.openURL('https://fhdyt.github.io/silsilahKeluarga/')}>Pohon Keluarga</Button>
                                 <Button onPress={() => navigation.navigate('DetailFamily', { item:item })}>Lihat</Button>
                                 </Card.Actions>
                             </Card>
+                            </View>
                     );
                     }}
                 />
-                <View style={styles.Info}>
-                <List.Item
-                    title="Jumlah Keluarga"
-                    bottomDivider
-                    description={state.info.jumlah}
-                />
-                <List.Item
-                    title="Pria"
-                    bottomDivider
-                    description={state.info.pria}
-                />
-                <List.Item
-                    title="Wanita"
-                    bottomDivider
-                    description={state.info.wanita}
-                />
-                <List.Item
-                    title="Meninggal"
-                    bottomDivider
-                    description={state.info.meninggal}
-                />
-                </View>
+                
 
                 </SafeAreaView>
         </View>
@@ -144,7 +154,8 @@ const styles = StyleSheet.create({
     Title:{
         backgroundColor:'#eeeeee',
         borderTopLeftRadius: 10,
-        borderTopRightRadius:10
+        borderTopRightRadius:10,
+        height:100
     }
 });
 

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Text, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import { Searchbar } from 'react-native-paper';
 import { Context as MemberContext } from '../context/MemberContext';
