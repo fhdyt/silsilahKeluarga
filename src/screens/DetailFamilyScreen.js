@@ -55,12 +55,12 @@ const DetailFamilyScreen = ({ navigation }) => {
 
 
     return (
-      <ScrollView keyboardShouldPersistTaps="always"> 
+      <ScrollView keyboardShouldPersistTaps="always" showsVerticalScrollIndicator={false}> 
       <View style={styles.container}>
             <Card style={styles.Cover}>
                 <Card.Title style={styles.Title}
                     title={item.name}
-                    titleStyle={{fontSize:25}}
+                    titleStyle={{fontSize:25, color:item.color}}
                     subtitle={item.address}
                     left={(props) => <Avatar.Image size={50} source={iconGender} />}
                 />
@@ -78,10 +78,17 @@ const DetailFamilyScreen = ({ navigation }) => {
                     subtitleStyle={{fontSize:18}}
                 />
                 <Divider />
+                <Card.Title
+                    title="Kontak"
+                    titleStyle={{fontSize:12}}
+                    subtitle={item.contact}
+                    subtitleStyle={{fontSize:18}}
+                />
+                <Divider />
                 <Card.Actions>
-                  <Button onPress={() => {navigation.navigate('AddPerson', { item:item })}}>Tambah</Button>
-                  <Button color="green" onPress={() => {navigation.navigate('EditPerson', { item:item })}}>Edit</Button>
-                  <Button color="red" loading={loadingButton} disabled={disabledButton} onPress={() =>  buttonAlert(_id)}>Hapus</Button>
+                  <Button mode="contained" icon="account-plus" style={{marginRight:10}}onPress={() => {navigation.navigate('AddPerson', { item:item })}}>Tambah</Button>
+                  <Button mode="contained" icon="account-edit" style={{marginRight:10}}color="green" onPress={() => {navigation.navigate('EditPerson', { item:item })}}>Edit</Button>
+                  <Button mode="contained" icon="trash-can" style={{marginRight:10}}color="red" loading={loadingButton} disabled={disabledButton} onPress={() =>  buttonAlert(_id)}>Hapus</Button>
                 </Card.Actions>
             </Card>
                 <View style={styles.Member}>
@@ -111,14 +118,28 @@ const DetailFamilyScreen = ({ navigation }) => {
                       else{
                         var iconGender = require(`../../assets/FM.png`)
                       }
+
+                      if(item.color == null)
+                      {
+                        var color = "black"
+                      }
+                      else{
+                        var color = item.color
+                      }
                     return (
+                      <View>
                         <List.Item
                             title={item.name}
+                            titleStyle={{color:color}}
+                            //style={{backgroundColor: color}}
                             description={subtitle}
-                            left={(props) => <Avatar.Image size={35} source={iconGender} />}
-                            right={props => <List.Icon {...props} icon={right_icon} />}
+                            descriptionStyle={{color:color}}
+                            left={(props) => <Avatar.Image size={50} source={iconGender} />}
+                            right={props => <List.Icon {...props} icon={right_icon} color={color}/>}
                             onPress={() => navigation.push('DetailFamily', { item:item })}
                         />
+                        <Divider/>
+                        </View>
                     );
                     }}
                 />
@@ -153,9 +174,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginHorizontal: 10,
     },
-    Member: {
-        marginTop: 15
-    },
     Cover:{
       marginBottom: 10,
       shadowColor: "#000",
@@ -174,14 +192,16 @@ const styles = StyleSheet.create({
       borderTopRightRadius:10
     },
     Member:{
-      shadowColor: "#000",
-      shadowOffset: {
-          width: 0,
-          height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
+    //   borderRadius: 10,
+    //   shadowColor: "#000",
+    //   shadowOffset: {
+    //       width: 0,
+    //       height: 2,
+    //   },
+    //   shadowOpacity: 0.25,
+    //   shadowRadius: 3.84,
+    //   elevation: 5,
+    //   marginHorizontal
     },
 });
 

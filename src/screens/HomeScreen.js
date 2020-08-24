@@ -97,8 +97,8 @@ const HomeScreen = ({ navigation }) => {
                                 />
                                 <Divider />
                                 <Card.Actions>
-                                <Button onPress={() => Linking.openURL('https://fhdyt.github.io/silsilahKeluarga/')}>Pohon Keluarga</Button>
-                                <Button onPress={() => navigation.navigate('DetailFamily', { item:item })}>Lihat</Button>
+                                <Button mode="contained" icon="file-tree" style={{marginRight:10}}onPress={() => Linking.openURL('https://fhdyt.github.io/silsilahKeluarga-UWAK/')}>Pohon Keluarga</Button>
+                                <Button mode="contained" icon="open-in-new"style={{marginRight:10}}onPress={() => navigation.navigate('DetailFamily', { item:item })}>Lihat</Button>
                                 </Card.Actions>
                             </Card>
                             </View>
