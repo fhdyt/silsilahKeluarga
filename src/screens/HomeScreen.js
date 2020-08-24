@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { View, StyleSheet, Image, FlatList, Linking } from 'react-native';
 import { Context as MemberContext } from '../context/MemberContext';
-import { Card, Button, Searchbar, Banner, IconButton, Divider } from 'react-native-paper';
+import { Card, Button, Searchbar, Banner, IconButton, Divider, Caption } from 'react-native-paper';
 import { SafeAreaView } from 'react-navigation';
 const HomeScreen = ({ navigation }) => {
     const { state, fetchFamily, showLoading } = useContext(MemberContext);
@@ -98,14 +98,15 @@ const HomeScreen = ({ navigation }) => {
                                 <Divider />
                                 <Card.Actions>
                                 <Button mode="contained" icon="file-tree" style={{marginRight:10}}onPress={() => Linking.openURL('https://fhdyt.github.io/silsilahKeluarga-UWAK/')}>Pohon Keluarga</Button>
-                                <Button mode="contained" icon="open-in-new"style={{marginRight:10}}onPress={() => navigation.navigate('DetailFamily', { item:item })}>Lihat</Button>
+                                <Button mode="contained" color="green" icon="open-in-new"style={{marginRight:10}}onPress={() => navigation.navigate('DetailFamily', { item:item })}>Lihat</Button>
                                 </Card.Actions>
                             </Card>
                             </View>
                     );
                     }}
                 />
-                
+                <Divider />
+                    <Caption style={{alignSelf:'center', }}>Versi : 20200824</Caption>
 
                 </SafeAreaView>
         </View>

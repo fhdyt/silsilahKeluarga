@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { Context as MemberContext } from '../context/MemberContext';
 import { RadioButton, Divider, ToggleButton } from 'react-native-paper';
 
@@ -31,6 +31,7 @@ const EditPersonScreen = ({ navigation }) => {
 
   const onToggleSwitch = () => setTags_status(!tags_status);
     return (
+      <ScrollView>
         <View style={styles.container}>
           <Headline>Edit</Headline>
           <View style={styles.Pasangan}>
@@ -102,6 +103,7 @@ const EditPersonScreen = ({ navigation }) => {
               }
             >Edit</Button>
         </View>
+        </ScrollView>
     );
 }
 
@@ -123,7 +125,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginBottom: 50,
         marginHorizontal: 20,
-        marginTop: 10,
       },
       Pasangan: {
         flexDirection: 'row',

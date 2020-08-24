@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { Context as MemberContext } from '../context/MemberContext';
 import { RadioButton, Divider, ToggleButton } from 'react-native-paper';
 
-import { TextInput, Switch, Button, Headline } from 'react-native-paper';
+import { TextInput, Switch, Button, Headline, IconButton } from 'react-native-paper';
 
 const AddPersonScreen = ({ navigation }) => {
   const id = navigation.state.params.item.id;
@@ -120,7 +120,6 @@ AddPersonScreen.navigationOptions = ({ navigation }) => {
         flex: 1,
         marginBottom: 50,
         marginHorizontal: 20,
-        marginTop: 10,
       },
       Pasangan: {
         flexDirection: 'row',

@@ -64,6 +64,7 @@ const add_member = dispatch => async ({ id, name, address, contact, color, birth
     }
   } catch (err) {
     navigate('Home')
+    console.log(err)
     dispatch({ type: 'errorBanner', payload: true });
   }
 };
